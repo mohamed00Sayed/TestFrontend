@@ -10,7 +10,7 @@ const Checkbox = ({ add, remove }) => {
   };
 
   return (
-    <div className="checkbox-wrapper-12">
+    <div className="delete-checkbox">
       <div className="cbx">
         <input id="cbx-12" type="checkbox" onChange={changeList} />
         <label htmlFor="cbx-12"></label>

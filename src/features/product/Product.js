@@ -1,16 +1,17 @@
 import Book from "./Book";
 import Dvd from "./Dvd";
 import Furniture from "./Furniture";
+import './products.scss';
 
-const Product = ({ product }) => {
+const Product = ({ product, list }) => {
   return (
     <>
       {product?.weight != null ? (
-        <Book book={product} />
+        <Book book={product} list={list}/>
       ) : product?.size != null ? (
-        <Dvd dvd={product} />
+        <Dvd dvd={product} list={list}/>
       ) : (
-        <Furniture furniture={product} />
+        <Furniture furniture={product} list={list}/>
       )}
     </>
   );

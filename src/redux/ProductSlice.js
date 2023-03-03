@@ -11,6 +11,14 @@ export const fetchProducts = createAsyncThunk(
     return await API.fetchProducts(url);
   }
 );
+
+export const deleteProducts = createAsyncThunk(
+  "products/deleteProducts",
+  async (req) => {
+    return await API.deleteProducts(req.url, req.products);
+  }
+);
+
 /*normalize the data using entity adapter*/
 export const productsAdapter = createEntityAdapter({
   selectId: (product) => product.sku,
@@ -25,6 +33,7 @@ export const productSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.fulfilled, productsAdapter.upsertMany);
+    builder.addCase(deleteProducts.fulfilled, productsAdapter.removeMany);
   },
 });
 

@@ -3,15 +3,15 @@ import Dvd from "./Dvd";
 import Furniture from "./Furniture";
 import '../styles/products.scss';
 
-const Product = ({ product, list }) => {
+const Product = ({ product, add, remove }) => {
   return (
     <>
       {product?.weight != null ? (
-        <Book book={product} list={list}/>
+        <Book book={product} add={add} remove={remove}/>
       ) : product?.size != null ? (
-        <Dvd dvd={product} list={list}/>
+        <Dvd dvd={product} add={add} remove={remove}/>
       ) : (
-        <Furniture furniture={product} list={list}/>
+        <Furniture furniture={product} add={add} remove={remove}/>
       )}
     </>
   );

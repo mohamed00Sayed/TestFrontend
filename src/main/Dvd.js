@@ -1,20 +1,19 @@
 import Checkbox from "./Checkbox";
 
-const Dvd = ({ dvd, list }) => {
-  const addToList = () => {
-    /*add sku to list*/
-    list.push(dvd.sku);
+const Dvd = ({ dvd, add, remove }) => {
+  const addDvdToList = () => {
+    /*add dvd to list*/
+    add(dvd);
   };
 
-  const removeFromList = () => {
-    /*remove sku from list*/
-    const idx = list.indexOf(dvd.sku);
-    list.splice(idx, 1);
+  const removeDvdFromList = () => {
+    /*remove dvd from list*/
+    remove(dvd);
   };
 
   return (
     <li>
-      <Checkbox addToList={addToList} removeFromList={removeFromList} />
+      <Checkbox add={addDvdToList} remove={removeDvdFromList} />
       <div>{dvd.sku}</div>
       <div>{dvd.name}</div>
       <div>{dvd.price} $</div>

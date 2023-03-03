@@ -1,21 +1,20 @@
 import Checkbox from "./Checkbox";
 import Dimensions from "./Dimensions";
 
-const Furniture = ({ furniture, list }) => {
-  const addToList = () => {
-    /*add sku to list*/
-    list.push(furniture.sku);
+const Furniture = ({ furniture, add, remove }) => {
+  const addFurnitureToList = () => {
+    /*add furniture to list*/
+    add(furniture);
   };
 
-  const removeFromList = () => {
-    /*remove sku from list*/
-    const idx = list.indexOf(furniture.sku);
-    list.splice(idx, 1);
+  const removeFurnitureFromList = () => {
+    /*remove furniture from list*/
+    remove(furniture);
   };
 
   return (
     <li>
-      <Checkbox addToList={addToList} removeFromList={removeFromList} />
+      <Checkbox add={addFurnitureToList} remove={removeFurnitureFromList} />
       <div>{furniture.sku}</div>
       <div>{furniture.name}</div>
       <div>{furniture.price} $</div>

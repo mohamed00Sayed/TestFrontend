@@ -1,11 +1,11 @@
 import "../styles/checkbox.scss";
-const Checkbox = ({ addToList, removeFromList }) => {
+const Checkbox = ({ add, remove }) => {
   const changeList = (event) => {
     const checked = event.target.checked;
     if (checked) {
-      addToList();
+      add();
     } else {
-      removeFromList();
+      remove();
     }
   };
 

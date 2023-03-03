@@ -8,6 +8,8 @@ const fetchProducts = (url)=> {
   }).then((response) => response.json());
 }
 
+/*handle mass delete*/
+
 const API = {
   fetchProducts
 }

@@ -1,7 +1,7 @@
 import Book from "./Book";
 import Dvd from "./Dvd";
 import Furniture from "./Furniture";
-import './products.scss';
+import '../styles/products.scss';
 
 const Product = ({ product, list }) => {
   return (

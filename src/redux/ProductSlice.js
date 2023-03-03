@@ -3,7 +3,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from "@reduxjs/toolkit";
-import API from "./productAPI";
+import API from "../api/productAPI";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",

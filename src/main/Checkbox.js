@@ -1,4 +1,4 @@
-import "./checkbox.scss";
+import "../styles/checkbox.scss";
 const Checkbox = ({ addToList, removeFromList }) => {
   const changeList = (event) => {
     const checked = event.target.value;
@@ -8,6 +8,7 @@ const Checkbox = ({ addToList, removeFromList }) => {
       removeFromList();
     }
   };
+
   return (
     <div className="checkbox-wrapper-12">
       <div className="cbx">

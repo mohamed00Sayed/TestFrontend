@@ -6,9 +6,9 @@ import '../styles/products.scss';
 const Product = ({ product, add, remove }) => {
   return (
     <>
-      {product?.weight != null ? (
+      {product.weight !== undefined ? (
         <Book book={product} add={add} remove={remove}/>
-      ) : product?.size != null ? (
+      ) : product.size !== undefined ? (
         <Dvd dvd={product} add={add} remove={remove}/>
       ) : (
         <Furniture furniture={product} add={add} remove={remove}/>

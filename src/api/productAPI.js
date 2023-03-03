@@ -10,40 +10,16 @@ const fetchProducts = async (url) => {
 };
 
 /*handle mass delete*/
-const deleteProducts = (url, products) => {
-  const dvds = [];
-  const books = [];
-  const furnitures = [];
-  const ids = [];
-
-  products.forEach((product) => {
-    if (product?.weight !== null) {
-      books.push(product.sku);
-      ids.push(product.sku);
-    }
-    if (product?.size !== null) {
-      dvds.push(product.sku);
-      ids.push(product.sku);
-    }
-    if (product?.dimensions !== null) {
-      furnitures.push(product.sku);
-      ids.push(product.sku);
-    }
-  });
-
-  const data = {
-    books,
-    dvds,
-    furnitures,
-  };
-
+const deleteProducts = async (url, data) => {
   return fetch(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then((res) => ids);
+  })
+    .then((res) => 200)
+    .catch((err) => 403);
 };
 
 const API = {

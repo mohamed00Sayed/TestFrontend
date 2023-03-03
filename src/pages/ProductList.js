@@ -23,7 +23,6 @@ const ProductList = () => {
     dispatch(
       deleteProducts({ url: "http://localhost:8000/products/", products: list })
     );
-    
   };
 
   return (

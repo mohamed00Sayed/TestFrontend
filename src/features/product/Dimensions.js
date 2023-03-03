@@ -1,7 +1,7 @@
 const Dimensions = ({ dimensions }) => {
   return (
     <div>
-      {dimensions.length}X{dimensions.width}X{dimensions.height}
+      Dimensions: {dimensions.length}x{dimensions.width}x{dimensions.height}
     </div>
   );
 };

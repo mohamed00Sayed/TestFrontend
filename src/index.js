@@ -9,7 +9,7 @@ import { fetchProducts } from './redux/ProductSlice';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-store.dispatch(fetchProducts("http://localhost:8000/products/"));
+store.dispatch(fetchProducts(process.env.REACT_APP_API_URL));
 root.render(
   <React.StrictMode>
     <Provider store={store}>

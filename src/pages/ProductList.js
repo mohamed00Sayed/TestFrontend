@@ -21,7 +21,7 @@ const ProductList = () => {
 
   const handleDelete = () => {
     dispatch(
-      deleteProducts({ url: "http://localhost:8000/products/", products: list })
+      deleteProducts({ url: process.env.REACT_APP_API_URL, products: list })
     );
   };
 

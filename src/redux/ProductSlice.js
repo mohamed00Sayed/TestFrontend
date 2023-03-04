@@ -84,4 +84,5 @@ export const productSlice = createSlice({
 });
 
 export const { productsAdded, productsDeleted } = productSlice.actions;
+export const {selectIds: selectProductIds} = productsAdapter.getSelectors((state) => state.products);
 export default productSlice.reducer;

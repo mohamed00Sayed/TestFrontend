@@ -95,3 +95,56 @@ $background: rgb(175, 185, 206);
 hr {
   margin: auto 345px;
 }
+
+@mixin mobile-tab {
+  #pa-page {
+    margin-top: 10px;
+    #pa-header {
+      width: 100%;
+      margin-bottom: 10px;
+      .buttons {
+        .button {
+          padding: 10px;
+          width: 80px;
+          border-radius: 5px;
+        }
+      }
+      #pa-title {
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  #forms-div {
+    #product-form,
+    #Book,
+    #DVD,
+    #Furniture {
+      width: 100%;
+      fieldset {
+        border: none;
+      }
+      input,
+      #productType {
+        font-size: 15px;
+        width: 50%;
+        height: 35px;
+        border-radius: 5px;
+      }
+    }
+  }
+  hr {
+    margin: auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  @include mobile-tab;
+}
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  @include mobile-tab;
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  @include mobile-tab;
+}

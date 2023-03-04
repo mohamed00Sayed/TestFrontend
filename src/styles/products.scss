@@ -58,4 +58,46 @@ body {
       background-color: rgb(135, 180, 197);
     }
   }
+
+  hr {
+    margin: auto;
+  }
 }
+
+@mixin mobile-tab {
+  #pl-page {
+    margin-top: 10px;
+    #pl-header {
+      width: 100%;
+      margin-bottom: 10px;
+      .buttons {
+        .button {
+          padding: 10px;
+          width: 150px;
+          border-radius: 5px;
+        }
+      }
+      #pl-title {
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  @include mobile-tab;
+}
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  @include mobile-tab;
+  #pl-page{
+    ul {
+      li {
+        width: 150px;
+        margin: 10px;
+      }
+    }
+  }
+}
+

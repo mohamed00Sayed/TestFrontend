@@ -6,12 +6,14 @@ import FurnitureForm from "../main/FurnitureForm";
 import { addProduct, selectProductIds } from "../redux/ProductSlice";
 import Input from "../main/Input";
 import "../styles/productform.scss";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductAdd = () => {
   const [productType, setType] = useState("dvd");
   const [duplicateSku, setDuplicateSku] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   /*a form reference*/
   const formRef = useRef();
   const bookRef = useRef();
@@ -33,6 +35,7 @@ const ProductAdd = () => {
           productData: result.dataObj,
         })
       );
+      navigate(-1);
     } else {
       if (ids.includes(result.sku)) {
         setDuplicateSku(true);
@@ -174,7 +177,9 @@ const ProductAdd = () => {
           <button className="button" onClick={onSubmit}>
             Save
           </button>
-          <button className="button">Cancel</button>
+          <Link to={"/"}>
+            <button className="button">Cancel</button>
+          </Link>
         </div>
       </div>
       <hr />

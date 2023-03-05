@@ -1,7 +1,21 @@
 import React from "react";
-import ProductList from './pages/ProductList';
+import ProductAdd from "./pages/ProductAdd";
+import ProductList from "./pages/ProductList";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ProductList />,
+  },
+  {
+    path: "add-product",
+    element: <ProductAdd />,
+  },
+]);
+
 const App = () => {
-  return <div><ProductList/></div>;
+  return <RouterProvider router={router} />;
 };
 
 export default App;

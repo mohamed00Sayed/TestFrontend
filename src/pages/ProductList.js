@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Product from "../main/Product";
 import { deleteProducts } from "../redux/ProductSlice";
 import "../styles/products.scss";
@@ -30,7 +31,9 @@ const ProductList = () => {
       <div id="pl-header">
         <div id="pl-title">Product List</div>
         <div className="buttons">
-          <button className="button">ADD</button>
+          <Link to={"add-product"}>
+            <button className="button">ADD</button>
+          </Link>
           <button className="button" onClick={handleDelete}>
             MASS DELETE
           </button>

@@ -1,50 +1,18 @@
-import { useState } from "react";
-import { isNumeric } from "../pages/ProductAdd";
+import Input from "./Input";
 
-const DvdForm = ({ passData }) => {
-  const [data, setData] = useState({});
-  const [validation, setValidation] = useState({});
-
-  const setSize = (event) => {
-    const size = event.target.value;
-    if (!isNumeric(size)) {
-      passData({
-        data: { size },
-        validation: { emptySize: true },
-      });
-      setValidation({ emptySize: true });
-      setData({ size });
-      event.target.value = "";
-    } else {
-      passData({
-        data: { size: parseFloat(size) },
-        validation: { emptySize: false },
-      });
-      setValidation({ emptySize: false });
-      setData({ size: parseFloat(size) });
-    }
-  };
-
+const DvdForm = ({ dvdRef }) => {
   return (
-    <form id="DVD">
+    <form id="DVD" ref={dvdRef}>
       <fieldset>
         <label htmlFor="size">Size(MB): </label>
-        <input
+        <Input
           id="size"
           name="size"
           type="text"
-          required
-          autoComplete="off"
-          onChange={setSize}
-          onPaste={setSize}
+          valueType="number"
+          errorMessage="Size must not be empty [number]"
         />
       </fieldset>
-      {validation.emptySize ? (
-        <label className="error">Size must be non-empty number</label>
-      ) : (
-        ""
-      )}
-      <br />
       <label>Please provide DVD size</label>
     </form>
   );

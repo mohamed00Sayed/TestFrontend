@@ -1,49 +1,18 @@
-import { useState } from "react";
-import { isNumeric } from "../pages/ProductAdd";
+import Input from "./Input";
 
-const BookForm = ({ passData }) => {
-  const [data, setData] = useState({});
-  const [validation, setValidation] = useState({});
-
-  const setWeight = (event) => {
-    const weight = event.target.value;
-    if (!isNumeric(weight)) {
-      passData({
-        data: { weight },
-        validation: { emptyWeight: true },
-      });
-      setValidation({ emptyWeight: true });
-      setData({ weight });
-      event.target.value = "";
-    } else {
-      passData({
-        data: { weight: parseFloat(weight) },
-        validation: { emptyWeight: false },
-      });
-      setValidation({ emptyWeight: false });
-      setData({ weight: parseFloat(weight) });
-    }
-  };
+const BookForm = ({ bookRef }) => {
   return (
-    <form id="Book">
+    <form id="Book" ref={bookRef}>
       <fieldset>
         <label htmlFor="weight">Weight(KG): </label>
-        <input
+        <Input
           id="weight"
           name="weight"
           type="text"
-          required
-          autoComplete="off"
-          onChange={setWeight}
-          onPaste={setWeight}
+          valueType="number"
+          errorMessage="Weight must not be empty [number]"
         />
       </fieldset>
-      {validation.emptyWeight ? (
-        <label className="error"> Weight must be non-empty number</label>
-      ) : (
-        ""
-      )}
-      <br />
       <label>Please provide book weight</label>
     </form>
   );

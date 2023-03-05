@@ -4,117 +4,136 @@ import BookForm from "../main/BookForm";
 import DvdForm from "../main/DvdForm";
 import FurnitureForm from "../main/FurnitureForm";
 import { selectProductIds } from "../redux/ProductSlice";
+import Input from "../main/Input";
 import "../styles/productform.scss";
 
 const ProductAdd = () => {
   const [productType, setType] = useState("dvd");
-  const [data, setData] = useState({});
-  const [validation, setValidation] = useState({});
-  const [hasErrors, setErrors] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+  /*a form reference*/
+  const formRef = useRef();
+  const bookRef = useRef();
+  const dvdRef = useRef();
+  const furnitureRef = useRef();
   /*select product ids*/
   const ids = useSelector(selectProductIds);
-
   const onSwitch = (event) => {
-    const type = event.target.value;
-    if(productType === 'dvd'){
-      delete validation.emptySize;
-      delete data.size;
-    }
-    else if(productType === 'book'){
-      delete validation.emptyWeight;
-      delete data.weight;
-    }
-    else if(productType === 'furniture'){
-      delete validation.emptyHeight;
-      delete validation.emptyWidth;
-      delete validation.emptyLength;
-      delete data.dimensions;
-    }
-    setType(type);
+    setType(event.target.value);
   };
 
-  const setSku = (event) => {
-    const sku = event.target.value;
-    /*validate sku here*/
-    if (ids.includes(sku)) {
-      setValidation({ ...validation, duplicateSku: true, emptySku: true });
-      setData({ ...data, sku });
-      event.target.value = "";
-    } else {
-      /*if not duplicate but empty*/
-      if (sku.trim() === "") {
-        setValidation({ ...validation, emptySku: true, duplicateSku: false });
-        setData({ ...data, sku });
-      } else {
-        setValidation({ ...validation, duplicateSku: false, emptySku: false });
-        setData({ ...data, sku });
+  const onSubmit = () => {
+    const result = getData();
+    if (result.valid) {
+      /*save data to db*/
+      console.log("save data to db");
+    }
+    else{
+      setInvalid(true);
+    }
+  };
+
+  const getData = () => {
+    /*validation data*/
+    let skuError = true;
+    let nameError = true;
+    let priceError = true;
+    let weightError = true;
+    let sizeError = true;
+    let lengthError = true;
+    let widthError = true;
+    let heightError = true;
+    /*get values and set validation data accordingly*/
+    const sku = formRef.current.sku.value;
+    const name = formRef.current.name.value;
+    const price = formRef.current.price.value;
+
+    if (sku !== undefined && sku !== "" && !ids.includes(sku)) {
+      skuError = false;
+    }
+    if (name !== undefined && name !== "") {
+      nameError = false;
+    }
+    if (price !== undefined && price !== "") {
+      priceError = false;
+    }
+    /*get specific values, set validation data, process result*/
+    if (productType === "book") {
+      const weight = bookRef.current.weight.value;
+      if (weight !== undefined && weight !== "") {
+        weightError = false;
       }
-    }
-  };
-
-  const setName = (event) => {
-    const name = event.target.value;
-    if (name.trim() === "") {
-      setValidation({ ...validation, emptyName: true });
-      setData({ ...data, name });
-    } else {
-      setValidation({ ...validation, emptyName: false });
-      setData({ ...data, name });
-    }
-  };
-
-  const setPrice = (event) => {
-    const price = event.target.value;
-    if (!isNumeric(price)) {
-      setValidation({ ...validation, emptyPrice: true });
-      setData({ ...data, price });
-      event.target.value = "";
-    } else {
-      setValidation({ ...validation, emptyPrice: false });
-      setData({ ...data, price: parseFloat(price) });
-    }
-  };
-
-  const passDataToParent = (result) => {
-    const cData = result.data;
-    const cValidation = result.validation;
-    /*set data of the parent to all data and validation to all validations*/
-    setData({ ...data, ...cData });
-    setValidation({ ...validation, ...cValidation });
-  };
-
-  const onSubmit = (event) => {
-    console.log(data);
-    console.log(validation);
-
-    if (!isValid()) {
-      console.log("has errors");
-      setErrors(true);
-    } else {
-      console.log("saved to db");
-      setErrors(false);
-    }
-  };
-
-  const isValid = () => {
-    const keys = Object.keys(validation);
-    if (keys.length < 5) return false;
-    if (
-      keys.length === 5 &&
-      (productType === "dvd" || productType === "book")
-    ) {
-      for (let x = 0; x < keys.length; x++) {
-        if (validation[keys[x]] !== false) return false;
+      /*reurn according to validation*/
+      return validate(
+        { skuError, nameError, priceError, weightError },
+        {
+          type: "book",
+          data: { sku, name, price, weight },
+        }
+      );
+    } else if (productType === "dvd") {
+      const size = dvdRef.current.size.value;
+      /*validate data*/
+      if (size !== undefined && size !== "") {
+        sizeError = false;
       }
-      return true;
-    }
-    if (keys.length === 7 && productType === "furniture") {
-      for (let x = 0; x < keys.length; x++) {
-        if (validation[keys[x]] !== false) return false;
+      /*return according to validation*/
+      return validate(
+        { skuError, nameError, priceError, sizeError },
+        {
+          type: "dvd",
+          data: { sku, name, price, size },
+        }
+      );
+    } else {
+      const height = furnitureRef.current.height.value;
+      const length = furnitureRef.current.length.value;
+      const width = furnitureRef.current.width.value;
+
+      if (height !== undefined && height !== "") {
+        heightError = false;
       }
-      return true;
+      if (length !== undefined && length !== "") {
+        lengthError = false;
+      }
+      if (width !== undefined && width !== "") {
+        widthError = false;
+      }
+      /*return according to validation*/
+      return validate(
+        {
+          skuError,
+          nameError,
+          priceError,
+          heightError,
+          lengthError,
+          widthError,
+        },
+        {
+          type: "furniture",
+          data: { sku, name, price, dimensions: { width, length, height } },
+        }
+      );
     }
-    return false;
+  };
+
+  const validate = (validObj, dataObj) => {
+    const valid = allValid(validObj);
+    if (valid) {
+      return {
+        valid: true,
+        dataObj,
+      };
+    } else {
+      return { valid: false };
+    }
+  };
+
+  const allValid = (data) => {
+    const keys = Object.keys(data);
+    for (let x = 0; x < keys.length; x++) {
+      if (data[keys[x]] === true) return false;
+    }
+    return true;
   };
 
   return (
@@ -130,61 +149,40 @@ const ProductAdd = () => {
       </div>
       <hr />
       <div id="forms-div">
-        <form id="product-form">
+        <form id="product-form" ref={formRef}>
           <fieldset>
             <label htmlFor="sku">SKU: </label>
-            <input
+            <Input
+              id="sku"
               name="sku"
               type="text"
-              id="sku"
-              autoComplete="off"
-              onChange={setSku}
-              onPaste={setSku}
+              valueType="string"
+              errorMessage="SKU must not be empty or duplicate"
             />
           </fieldset>
-          {validation.duplicateSku ? (
-            <label className="error">Duplicate Sku</label>
-          ) : (
-            ""
-          )}
-          {validation.emptySku ? (
-            <label className="error"> Sku must not be empty</label>
-          ) : (
-            ""
-          )}
 
           <fieldset>
             <label htmlFor="name">Name: </label>
-            <input
+            <Input
+              id="name"
               name="name"
               type="text"
-              id="name"
-              autoComplete="off"
-              onChange={setName}
-              onPaste={setName}
+              valueType="string"
+              errorMessage="Name must not be empty"
             />
           </fieldset>
-          {validation.emptyName ? (
-            <label className="error">Name must not be empty</label>
-          ) : (
-            ""
-          )}
+
           <fieldset>
             <label htmlFor="price">Price($): </label>
-            <input
+            <Input
+              id="price"
               name="price"
               type="text"
-              id="price"
-              autoComplete="off"
-              onChange={setPrice}
-              onPaste={setPrice}
+              valueType="number"
+              errorMessage="Price must not be empty [number]"
             />
           </fieldset>
-          {validation.emptyPrice ? (
-            <label className="error"> Price must non-empty number</label>
-          ) : (
-            ""
-          )}
+
           <fieldset>
             <label htmlFor="productType">Type Switcher: </label>
             <select id="productType" onChange={onSwitch}>
@@ -195,13 +193,13 @@ const ProductAdd = () => {
           </fieldset>
         </form>
         {productType === "dvd" ? (
-          <DvdForm passData={passDataToParent} />
+          <DvdForm dvdRef={dvdRef} />
         ) : productType === "book" ? (
-          <BookForm passData={passDataToParent} />
+          <BookForm bookRef={bookRef} />
         ) : (
-          <FurnitureForm passData={passDataToParent} />
+          <FurnitureForm furnitureRef={furnitureRef} />
         )}
-        {hasErrors ? (
+        {invalid ? (
           <label className="error">All fields are required</label>
         ) : (
           ""
@@ -209,11 +207,6 @@ const ProductAdd = () => {
       </div>
     </div>
   );
-};
-
-export const isNumeric = (str) => {
-  if (typeof str != "string") return false;
-  return !isNaN(str) && !isNaN(parseFloat(str));
 };
 
 export default ProductAdd;

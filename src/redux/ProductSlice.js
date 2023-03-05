@@ -55,6 +55,19 @@ export const deleteProducts = createAsyncThunk(
   }
 );
 
+export const addProduct = createAsyncThunk(
+  "products/addProduct",
+  async (req, storeAPI) => {
+    /*optimistic update of the ui*/
+    const dispatch = storeAPI.dispatch;
+    dispatch(productAdded(req.productData.data));
+    const response = await API.addProduct(req.url, req.productData);
+    if (response === 403) {
+      dispatch(productDeleted(req.productData.data.sku));
+    } else return response;
+  }
+);
+
 /*normalize the data using entity adapter*/
 export const productsAdapter = createEntityAdapter({
   selectId: (product) => product.sku,
@@ -73,6 +86,14 @@ export const productSlice = createSlice({
     productsAdded(state, action) {
       productsAdapter.upsertMany(state, action.payload);
     },
+
+    productAdded(state, action) {
+      productsAdapter.addOne(state, action.payload);
+    },
+
+    productDeleted(state, action) {
+      productsAdapter.removeOne(state, action.payload);
+    },
   },
 
   extraReducers: (builder) => {
@@ -83,6 +104,9 @@ export const productSlice = createSlice({
   },
 });
 
-export const { productsAdded, productsDeleted } = productSlice.actions;
-export const {selectIds: selectProductIds} = productsAdapter.getSelectors((state) => state.products);
+export const { productsAdded, productsDeleted, productAdded, productDeleted } =
+  productSlice.actions;
+export const { selectIds: selectProductIds } = productsAdapter.getSelectors(
+  (state) => state.products
+);
 export default productSlice.reducer;

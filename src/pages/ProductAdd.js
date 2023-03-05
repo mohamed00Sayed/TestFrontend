@@ -1,15 +1,17 @@
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BookForm from "../main/BookForm";
 import DvdForm from "../main/DvdForm";
 import FurnitureForm from "../main/FurnitureForm";
-import { selectProductIds } from "../redux/ProductSlice";
+import { addProduct, selectProductIds } from "../redux/ProductSlice";
 import Input from "../main/Input";
 import "../styles/productform.scss";
 
 const ProductAdd = () => {
   const [productType, setType] = useState("dvd");
+  const [duplicateSku, setDuplicateSku] = useState(false);
   const [invalid, setInvalid] = useState(false);
+  const dispatch = useDispatch();
   /*a form reference*/
   const formRef = useRef();
   const bookRef = useRef();
@@ -25,10 +27,19 @@ const ProductAdd = () => {
     const result = getData();
     if (result.valid) {
       /*save data to db*/
-      console.log("save data to db");
-    }
-    else{
-      setInvalid(true);
+      dispatch(
+        addProduct({
+          url: process.env.REACT_APP_API_URL,
+          productData: result.dataObj,
+        })
+      );
+    } else {
+      if (ids.includes(result.sku)) {
+        setDuplicateSku(true);
+      } else {
+        setInvalid(true);
+        setDuplicateSku(false);
+      }
     }
   };
 
@@ -67,7 +78,12 @@ const ProductAdd = () => {
         { skuError, nameError, priceError, weightError },
         {
           type: "book",
-          data: { sku, name, price, weight },
+          data: {
+            sku,
+            name,
+            price: priceError ? 0 : parseFloat(price),
+            weight: weightError ? 0 : parseFloat(weight),
+          },
         }
       );
     } else if (productType === "dvd") {
@@ -81,7 +97,12 @@ const ProductAdd = () => {
         { skuError, nameError, priceError, sizeError },
         {
           type: "dvd",
-          data: { sku, name, price, size },
+          data: {
+            sku,
+            name,
+            price: priceError ? 0 : parseFloat(price),
+            size: sizeError ? 0 : parseFloat(size),
+          },
         }
       );
     } else {
@@ -110,7 +131,16 @@ const ProductAdd = () => {
         },
         {
           type: "furniture",
-          data: { sku, name, price, dimensions: { width, length, height } },
+          data: {
+            sku,
+            name,
+            price: priceError ? 0 : parseFloat(price),
+            dimensions: {
+              width: widthError ? 0 : parseInt(width),
+              length: lengthError ? 0 : parseInt(length),
+              height: heightError ? 0 : parseInt(height),
+            },
+          },
         }
       );
     }
@@ -124,7 +154,7 @@ const ProductAdd = () => {
         dataObj,
       };
     } else {
-      return { valid: false };
+      return { valid: false, sku: dataObj.data.sku };
     }
   };
 
@@ -159,6 +189,14 @@ const ProductAdd = () => {
               valueType="string"
               errorMessage="SKU must not be empty or duplicate"
             />
+            {duplicateSku ? (
+              <>
+                <br />
+                <label className="error">SKU is present</label>
+              </>
+            ) : (
+              ""
+            )}
           </fieldset>
 
           <fieldset>

@@ -7,11 +7,9 @@ $background: rgb(175, 185, 206);
   #pa-header {
     margin: auto;
     overflow: auto;
-    width: 50%;
+
     .buttons {
       float: right;
-      margin-right: 0;
-      padding-right: 0;
       .button {
         display: inline-block;
         background-color: #866efb;
@@ -38,8 +36,6 @@ $background: rgb(175, 185, 206);
       float: left;
       padding: 20px;
       margin: 5px;
-      margin-left: 2px;
-      padding-left: 0;
       margin-bottom: 0;
       font-size: 28px;
     }
@@ -95,10 +91,6 @@ $background: rgb(175, 185, 206);
 
 .error {
   color: red;
-}
-
-hr {
-  margin: auto 345px;
 }
 
 @mixin mobile-tab {

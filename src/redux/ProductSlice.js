@@ -74,10 +74,9 @@ export const productsAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.sku.localeCompare(b.sku),
 });
 
-const initialState = productsAdapter.getInitialState();
 export const productSlice = createSlice({
   name: "products",
-  initialState,
+  initialState: productsAdapter.getInitialState({ loading: "loading" }),
   reducers: {
     productsDeleted(state, action) {
       productsAdapter.removeMany(state, action.payload);
@@ -97,7 +96,10 @@ export const productSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.fulfilled, productsAdapter.upsertMany);
+    builder.addCase(fetchProducts.fulfilled, (state, action) =>{
+      productsAdapter.upsertMany(state, action.payload);
+      state.loading = "done";
+    });
     /* no need to remove what has already been removed in the thunk optimistically
      * builder.addCase(deleteProducts.fulfilled, productsAdapter.removeMany);
      */

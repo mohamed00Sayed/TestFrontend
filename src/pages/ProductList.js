@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Loading from "../main/Loading";
 import Product from "../main/Product";
 import { deleteProducts } from "../redux/ProductSlice";
 import "../styles/products.scss";
@@ -8,6 +9,7 @@ const ProductList = () => {
   const ids = useSelector((state) => state.products.ids);
   const products = useSelector((state) => state.products.entities);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.products.loading);
   let list = [];
 
   const addToList = (product) => {
@@ -40,16 +42,20 @@ const ProductList = () => {
         </div>
       </div>
       <hr />
-      <ul>
-        {ids.map((id) => (
-          <Product
-            key={id}
-            product={products[id]}
-            add={addToList}
-            remove={removeFromList}
-          />
-        ))}
-      </ul>
+      {loading === "loading" ? (
+        <Loading />
+      ) : (
+        <ul>
+          {ids.map((id) => (
+            <Product
+              key={id}
+              product={products[id]}
+              add={addToList}
+              remove={removeFromList}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

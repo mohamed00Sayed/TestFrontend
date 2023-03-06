@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Loading from "../main/Loading";
 import Product from "../main/Product";
 import { deleteProducts } from "../redux/ProductSlice";
-import "../styles/products.scss";
+import "../styles/productlist.scss";
 
 const ProductList = () => {
   const ids = useSelector((state) => state.products.ids);

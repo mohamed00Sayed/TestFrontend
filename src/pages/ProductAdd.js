@@ -5,7 +5,7 @@ import DvdForm from "../main/DvdForm";
 import FurnitureForm from "../main/FurnitureForm";
 import { addProduct, selectProductIds } from "../redux/ProductSlice";
 import Input from "../main/Input";
-import "../styles/productform.scss";
+import "../styles/productadd.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProductAdd = () => {

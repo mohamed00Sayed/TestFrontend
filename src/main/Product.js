@@ -1,7 +1,6 @@
 import Book from "./Book";
 import Dvd from "./Dvd";
 import Furniture from "./Furniture";
-import '../styles/products.scss';
 
 const Product = ({ product, add, remove }) => {
   return (

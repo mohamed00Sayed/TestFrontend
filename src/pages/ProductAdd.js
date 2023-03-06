@@ -32,7 +32,7 @@ const ProductAdd = () => {
       dispatch(
         addProduct({
           url: process.env.REACT_APP_API_URL,
-          productData: result.dataObj,
+          productData: result.obj,
         })
       );
       navigate(-1);
@@ -47,124 +47,85 @@ const ProductAdd = () => {
   };
 
   const getData = () => {
-    /*validation data*/
-    let skuError = true;
-    let nameError = true;
-    let priceError = true;
-    let weightError = true;
-    let sizeError = true;
-    let lengthError = true;
-    let widthError = true;
-    let heightError = true;
     /*get values and set validation data accordingly*/
     const sku = formRef.current.sku.value;
     const name = formRef.current.name.value;
     const price = formRef.current.price.value;
-
-    if (sku !== undefined && sku !== "" && !ids.includes(sku)) {
-      skuError = false;
-    }
-    if (name !== undefined && name !== "") {
-      nameError = false;
-    }
-    if (price !== undefined && price !== "") {
-      priceError = false;
-    }
     /*get specific values, set validation data, process result*/
     if (productType === "book") {
       const weight = bookRef.current.weight.value;
-      if (weight !== undefined && weight !== "") {
-        weightError = false;
-      }
       /*reurn according to validation*/
-      return validate(
-        { skuError, nameError, priceError, weightError },
-        {
-          type: "book",
-          data: {
-            sku,
-            name,
-            price: priceError ? 0 : parseFloat(price),
-            weight: weightError ? 0 : parseFloat(weight),
+      if (validate({ sku, name, price, weight })) {
+        return {
+          valid: true,
+          obj: {
+            type: "book",
+            data: {
+              sku,
+              name,
+              price: parseFloat(price),
+              weight: parseFloat(weight),
+            },
           },
-        }
-      );
+        };
+      } else {
+        return { valid: false, sku };
+      }
     } else if (productType === "dvd") {
       const size = dvdRef.current.size.value;
-      /*validate data*/
-      if (size !== undefined && size !== "") {
-        sizeError = false;
-      }
       /*return according to validation*/
-      return validate(
-        { skuError, nameError, priceError, sizeError },
-        {
-          type: "dvd",
-          data: {
-            sku,
-            name,
-            price: priceError ? 0 : parseFloat(price),
-            size: sizeError ? 0 : parseFloat(size),
+      if (validate({ sku, name, price, size })) {
+        return {
+          valid: true,
+          obj: {
+            type: "dvd",
+            data: {
+              sku,
+              name,
+              price: parseFloat(price),
+              size: parseInt(size),
+            },
           },
-        }
-      );
+        };
+      } else {
+        return { valid: false, sku };
+      }
     } else {
       const height = furnitureRef.current.height.value;
       const length = furnitureRef.current.length.value;
       const width = furnitureRef.current.width.value;
-
-      if (height !== undefined && height !== "") {
-        heightError = false;
-      }
-      if (length !== undefined && length !== "") {
-        lengthError = false;
-      }
-      if (width !== undefined && width !== "") {
-        widthError = false;
-      }
       /*return according to validation*/
-      return validate(
-        {
-          skuError,
-          nameError,
-          priceError,
-          heightError,
-          lengthError,
-          widthError,
-        },
-        {
-          type: "furniture",
-          data: {
-            sku,
-            name,
-            price: priceError ? 0 : parseFloat(price),
-            dimensions: {
-              width: widthError ? 0 : parseInt(width),
-              length: lengthError ? 0 : parseInt(length),
-              height: heightError ? 0 : parseInt(height),
+      if (validate({ sku, name, price, height, length, width })) {
+        return {
+          valid: true,
+          obj: {
+            type: "furniture",
+            data: {
+              sku,
+              name,
+              price: parseFloat(price),
+              dimensions: {
+                length: parseInt(length),
+                width: parseInt(width),
+                height: parseInt(height),
+              },
             },
           },
-        }
-      );
+        };
+      } else {
+        return { valid: false, sku };
+      }
     }
   };
 
-  const validate = (validObj, dataObj) => {
-    const valid = allValid(validObj);
-    if (valid) {
-      return {
-        valid: true,
-        dataObj,
-      };
-    } else {
-      return { valid: false, sku: dataObj.data.sku };
+  const validate = (obj) => {
+    const sku = obj.sku;
+    if (sku === "" || ids.includes(sku)) {
+      return false;
     }
-  };
-
-  const allValid = (data) => {
-    const keys = Object.keys(data);
+    const keys = Object.keys(obj);
     for (let x = 0; x < keys.length; x++) {
-      if (data[keys[x]] === true) return false;
+      if (obj[keys[x]] === "") return false;
     }
     return true;
   };

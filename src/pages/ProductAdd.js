@@ -145,7 +145,7 @@ const ProductAdd = () => {
       </div>
       <hr />
       <div id="forms-div">
-        <form id="product-form" ref={formRef}>
+        <form id="product_form" ref={formRef}>
           <fieldset>
             <label htmlFor="sku">SKU: </label>
             <Input

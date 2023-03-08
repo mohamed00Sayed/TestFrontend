@@ -34,7 +34,7 @@ const ProductList = () => {
         <div id="pl-title">Product List</div>
         <div className="buttons">
           <Link to={"add-product"}>
-            <button className="button">ADD</button>
+            <button className="button add">ADD</button>
           </Link>
           <button className="button" onClick={handleDelete}>
             MASS DELETE

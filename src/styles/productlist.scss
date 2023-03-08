@@ -58,7 +58,6 @@ body {
       background-color: rgb(135, 180, 197);
     }
   }
-
 }
 
 @mixin mobile-tab {
@@ -84,11 +83,30 @@ body {
 
 @media screen and (max-width: 480px) {
   @include mobile-tab;
+  #pl-page {
+    #pl-header {
+      #pl-title {
+        margin-right: 0;
+        padding-right: 0;
+      }
+      .buttons {
+        .button {
+          padding-right: 0;
+          padding-left: 0;
+        }
+        .add {
+          width: 60px;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 481px) and (max-width: 767px) {
   @include mobile-tab;
-  #pl-page{
+  #pl-page {
     ul {
       li {
         width: 150px;
@@ -97,4 +115,3 @@ body {
     }
   }
 }
-

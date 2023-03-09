@@ -1,8 +1,8 @@
 import Input from "./Input";
 
-const FurnitureForm = ({ furnitureRef }) => {
+const FurnitureForm = () => {
   return (
-    <form id="Furniture" ref={furnitureRef}>
+    <>
       <fieldset>
         <label htmlFor="height">Height(CM): </label>
         <Input
@@ -36,7 +36,7 @@ const FurnitureForm = ({ furnitureRef }) => {
         />
       </fieldset>
       <label>Please provide dimensions</label>
-    </form>
+    </>
   );
 };
 

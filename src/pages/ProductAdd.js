@@ -16,9 +16,6 @@ const ProductAdd = () => {
   const navigate = useNavigate();
   /*a form reference*/
   const formRef = useRef();
-  const bookRef = useRef();
-  const dvdRef = useRef();
-  const furnitureRef = useRef();
   /*select product ids*/
   const ids = useSelector(selectProductIds);
   const onSwitch = (event) => {
@@ -53,7 +50,7 @@ const ProductAdd = () => {
     const price = formRef.current.price.value;
     /*get specific values, set validation data, process result*/
     if (productType === "book") {
-      const weight = bookRef.current.weight.value;
+      const weight = formRef.current.weight.value;
       /*reurn according to validation*/
       if (validate({ sku, name, price, weight })) {
         return {
@@ -72,7 +69,7 @@ const ProductAdd = () => {
         return { valid: false, sku };
       }
     } else if (productType === "dvd") {
-      const size = dvdRef.current.size.value;
+      const size = formRef.current.size.value;
       /*return according to validation*/
       if (validate({ sku, name, price, size })) {
         return {
@@ -91,9 +88,9 @@ const ProductAdd = () => {
         return { valid: false, sku };
       }
     } else {
-      const height = furnitureRef.current.height.value;
-      const length = furnitureRef.current.length.value;
-      const width = furnitureRef.current.width.value;
+      const height = formRef.current.height.value;
+      const length = formRef.current.length.value;
+      const width = formRef.current.width.value;
       /*return according to validation*/
       if (validate({ sku, name, price, height, length, width })) {
         return {
@@ -144,71 +141,69 @@ const ProductAdd = () => {
         </div>
       </div>
       <hr />
-      <div id="forms-div">
-        <form id="product_form" ref={formRef}>
-          <fieldset>
-            <label htmlFor="sku">SKU: </label>
-            <Input
-              id="sku"
-              name="sku"
-              type="text"
-              valueType="string"
-              errorMessage="SKU must not be empty or duplicate"
-            />
-            {duplicateSku ? (
-              <>
-                <br />
-                <label className="error">SKU is present</label>
-              </>
-            ) : (
-              ""
-            )}
-          </fieldset>
+      <form id="product_form" ref={formRef}>
+        <fieldset>
+          <label htmlFor="sku">SKU: </label>
+          <Input
+            id="sku"
+            name="sku"
+            type="text"
+            valueType="string"
+            errorMessage="SKU must not be empty or duplicate"
+          />
+          {duplicateSku ? (
+            <>
+              <br />
+              <label className="error">SKU is present</label>
+            </>
+          ) : (
+            ""
+          )}
+        </fieldset>
 
-          <fieldset>
-            <label htmlFor="name">Name: </label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              valueType="string"
-              errorMessage="Name must not be empty"
-            />
-          </fieldset>
+        <fieldset>
+          <label htmlFor="name">Name: </label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            valueType="string"
+            errorMessage="Name must not be empty"
+          />
+        </fieldset>
 
-          <fieldset>
-            <label htmlFor="price">Price($): </label>
-            <Input
-              id="price"
-              name="price"
-              type="text"
-              valueType="number"
-              errorMessage="Price must not be empty [number]"
-            />
-          </fieldset>
+        <fieldset>
+          <label htmlFor="price">Price($): </label>
+          <Input
+            id="price"
+            name="price"
+            type="text"
+            valueType="number"
+            errorMessage="Price must not be empty [number]"
+          />
+        </fieldset>
 
-          <fieldset>
-            <label htmlFor="productType">Type Switcher: </label>
-            <select id="productType" onChange={onSwitch}>
-              <option value="dvd">DVD</option>
-              <option value="book">Book</option>
-              <option value="furniture">Furniture</option>
-            </select>
-          </fieldset>
-        </form>
+        <fieldset>
+          <label htmlFor="productType">Type Switcher: </label>
+          <select id="productType" onChange={onSwitch}>
+            <option value="dvd">DVD</option>
+            <option value="book">Book</option>
+            <option value="furniture">Furniture</option>
+          </select>
+        </fieldset>
         {productType === "dvd" ? (
-          <DvdForm dvdRef={dvdRef} />
+          <DvdForm />
         ) : productType === "book" ? (
-          <BookForm bookRef={bookRef} />
+          <BookForm />
         ) : (
-          <FurnitureForm furnitureRef={furnitureRef} />
+          <FurnitureForm />
         )}
         {invalid ? (
           <label className="error">All fields are required</label>
         ) : (
           ""
         )}
-      </div>
+      </form>
     </div>
   );
 };

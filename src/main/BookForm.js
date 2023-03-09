@@ -1,8 +1,8 @@
 import Input from "./Input";
 
-const BookForm = ({ bookRef }) => {
+const BookForm = () => {
   return (
-    <form id="Book" ref={bookRef}>
+    <>
       <fieldset>
         <label htmlFor="weight">Weight(KG): </label>
         <Input
@@ -14,7 +14,7 @@ const BookForm = ({ bookRef }) => {
         />
       </fieldset>
       <label>Please provide book weight</label>
-    </form>
+    </>
   );
 };
 

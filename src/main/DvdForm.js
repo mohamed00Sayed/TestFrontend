@@ -1,8 +1,8 @@
 import Input from "./Input";
 
-const DvdForm = ({ dvdRef }) => {
+const DvdForm = () => {
   return (
-    <form id="DVD" ref={dvdRef}>
+    <>
       <fieldset>
         <label htmlFor="size">Size(MB): </label>
         <Input
@@ -14,7 +14,7 @@ const DvdForm = ({ dvdRef }) => {
         />
       </fieldset>
       <label>Please provide DVD size</label>
-    </form>
+    </>
   );
 };
 

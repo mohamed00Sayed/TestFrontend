@@ -42,50 +42,45 @@ $background: rgb(175, 185, 206);
   }
 }
 
-#forms-div {
+#product_form {
+  margin: auto 20px;
   margin-top: 10px;
   text-align: center;
-  #product_form,
-  #Book,
-  #DVD,
-  #Furniture {
-    width: 50%;
-    margin: auto;
-    fieldset {
-      display: block;
-      margin-left: 2px;
-      margin-right: 2px;
-      padding-top: 0.35em;
-      padding-bottom: 0.625em;
-      padding-left: 0.75em;
-      padding-right: 0.75em;
-      border: 2px groove;
-      border-top: 0;
-      border-bottom: 0;
-      text-align: right;
-    }
-    input,
-    #productType {
-      font-size: 22px;
-      width: 80%;
-      height: 40px;
-      padding: 5px 10px;
-      background: $background;
-      background-image: none;
-      border: 3px solid $gray-light;
-      color: rgb(0, 0, 0);
-      border-radius: 10px;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
-      &:focus {
-        outline: 0;
-        border-color: $main;
-      }
-      margin-right: 10px;
-    }
 
-    label {
-      margin-left: 0;
+  border: 2px solid gray;
+  border-radius: 10px;
+  fieldset {
+    display: block;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: none;
+    text-align: right;
+    margin: auto;
+  }
+  input,
+  #productType {
+    width: 90%;
+    font-size: 22px;
+    height: 40px;
+    padding: 5px 10px;
+    background: $background;
+    background-image: none;
+    border: 3px solid $gray-light;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    &:focus {
+      outline: 0;
+      border-color: $main;
     }
+    margin-right: 10px;
+  }
+
+  label {
+    margin-left: 0;
+    float: left;
   }
 }
 
@@ -113,24 +108,18 @@ $background: rgb(175, 185, 206);
     }
   }
 
-  #forms-div {
-    #product-form,
-    #Book,
-    #DVD,
-    #Furniture {
-      width: 100%;
-      fieldset {
-        border: none;
-      }
-      input,
-      #productType {
-        font-size: 15px;
-        width: 50%;
-        height: 35px;
-        border-radius: 5px;
-      }
+  #product-form {
+    fieldset {
+      border: none;
+    }
+    input,
+    #productType {
+      font-size: 15px;
+      height: 35px;
+      border-radius: 5px;
     }
   }
+
   hr {
     margin: auto;
   }

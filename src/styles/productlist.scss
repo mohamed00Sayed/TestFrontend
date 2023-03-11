@@ -101,6 +101,12 @@ body {
         }
       }
     }
+
+    ul {
+      li {
+        width: 65%;
+      }
+    }
   }
 }
 
@@ -109,7 +115,7 @@ body {
   #pl-page {
     ul {
       li {
-        width: 150px;
+        width: 38%;
         margin: 10px;
       }
     }

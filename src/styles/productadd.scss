@@ -43,7 +43,7 @@ $background: rgb(175, 185, 206);
 }
 
 #product_form {
-  margin: auto 20px;
+  margin: auto 350px;
   margin-top: 10px;
   text-align: center;
 
@@ -99,30 +99,23 @@ $background: rgb(175, 185, 206);
           padding: 10px;
           width: 80px;
           border-radius: 5px;
+          margin-left: 0;
         }
       }
       #pa-title {
         padding: 10px;
         font-size: 15px;
+        margin-right: 0;
+        padding-right: 0;
       }
     }
   }
 
-  #product-form {
-    fieldset {
-      border: none;
-    }
-    input,
-    #productType {
-      font-size: 15px;
-      height: 35px;
-      border-radius: 5px;
-    }
+  #product_form {
+    margin: auto 20px;
+    margin-top: 10px;
   }
 
-  hr {
-    margin: auto;
-  }
 }
 @media screen and (max-width: 480px) {
   @include mobile-tab;
